@@ -2,6 +2,7 @@ package org.jersey.learning.messagnger.Resources;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import org.jersey.learning.messagnger.Bean.FilterBeanParam;
 import org.jersey.learning.messagnger.Error.UserError;
 import org.jersey.learning.messagnger.Model.*;
 import org.jersey.learning.messagnger.Service.ProfileServices;
@@ -25,24 +27,11 @@ public class ProfileResources {
 	ProfileServices profileService = new ProfileServices();
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Profile> getAllProfiles(@Context UriInfo info){
-		int year = -1, start= - 1, size = -1;
-		try {
-			year = Integer.parseInt(info.getQueryParameters().getFirst("year"));
-		}catch(NumberFormatException e) {
-			year = -1;
-		}
-		try {
-			start = Integer.parseInt(info.getQueryParameters().getFirst("start"));
-			size = Integer.parseInt(info.getQueryParameters().getFirst("size"));
-		}catch(NumberFormatException e) {
-			start = -1;
-			size = -1;
-		}
-		if(year > 0)
-			return profileService.getAllProfile(year);
-		if(start >= 0 && size > 0)
-			return profileService.getAllProfile(start, size);
+	public List<Profile> getAllProfiles(@BeanParam FilterBeanParam filterParam){
+		if(filterParam.getYear() > 0)
+			return profileService.getAllProfile(filterParam.getYear());
+		if(filterParam.getStart() >= 0 && filterParam.getSize() > 0)
+			return profileService.getAllProfile(filterParam.getStart() ,filterParam.getSize());
 		return profileService.getAllProfile();
 	}
 	

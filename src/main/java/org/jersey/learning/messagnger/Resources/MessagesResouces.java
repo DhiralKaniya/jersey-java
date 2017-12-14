@@ -4,6 +4,7 @@ package org.jersey.learning.messagnger.Resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.jersey.learning.messagnger.Service.MessageService;
 import org.jersey.learning.messagnger.Model.Message;
+import org.jersey.learning.messagnger.Bean.FilterBeanParam;
 import org.jersey.learning.messagnger.Error.UserError;
 
 @Path("/messages")
@@ -29,32 +31,17 @@ public class MessagesResouces {
 	MessageService messageService = new MessageService(); 
 	
 	@GET
-	public List<Message> getMessages(@Context UriInfo info) {
-		int year=-1,size=-1,start = -1;
-		try {
-			year = Integer.parseInt(info.getQueryParameters().getFirst("year"));
-			
-		}catch(NumberFormatException e) {
-			year = -1;	
-		}
-		try {
-			start = Integer.parseInt(info.getQueryParameters().getFirst("start"));
-			size= Integer.parseInt(info.getQueryParameters().getFirst("size"));
-		}catch(NumberFormatException e) {
-			size = -1;
-			start = -2;
-		}
-		
+	public List<Message> getMessages(@BeanParam FilterBeanParam filterParam) {	
 		List<Message> messages = new ArrayList<Message>();
-		if(year > 0) {
-			messages = messageService.getAllMessages(year);
+		if(filterParam.getYear() > 0) {
+			messages = messageService.getAllMessages(filterParam.getYear() );
 			if(messages.size() == 0) {
 				messages.add(new Message(UserError.getNotFoundNumber(),UserError.getSystemAuthor(),UserError.getDataNotFoundException()));
 			}
 			return messages;
 		}
-		if(start > -1 && size > 0) {
-			 messages =  messageService.getAllMessages(start, size);
+		if(filterParam.getStart() > -1 && filterParam.getSize() > 0) {
+			 messages =  messageService.getAllMessages(filterParam.getStart() , filterParam.getSize() );
 			 if(messages.size() == 0) {
 				messages.add(new Message(UserError.getNotFoundNumber(),UserError.getSystemAuthor(),UserError.getDataNotFoundException()));
 			}
