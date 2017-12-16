@@ -1,6 +1,8 @@
 package org.jersey.learning.messagnger.Model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,24 +17,32 @@ public class Message {
 	private String author;
 	
 	private Date createdDate;
-	
-	//@FormParam("message")
+	private Map<Integer, Comment> comments ;
 	private String message;
 	
 	public Message() {
-		
+		this.comments = new HashMap<>();
 	}
 	public Message(String id, String author, String message) {
 		this.id = Integer.parseInt(id);
 		this.message = message;
 		this.author = author;
 		this.createdDate = new Date();
+		this.comments = new HashMap<>();
 	}
 	public Message(int id, String author, String message) {
 		this.id = id;
 		this.author = author;
 		this.createdDate = new Date();
 		this.message = message;
+		this.comments = new HashMap<>();
+	}
+	
+	public Map<Integer, Comment> getComments() {
+		return comments;
+	}
+	public void setComments(Map<Integer, Comment> comments) {
+		this.comments = comments;
 	}
 	public int getId() {
 		return id;

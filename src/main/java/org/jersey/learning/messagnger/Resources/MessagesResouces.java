@@ -91,4 +91,10 @@ public class MessagesResouces {
 			deleteMessage = new Message(UserError.getNotFoundNumber(),UserError.getSystemAuthor(),UserError.getDataNotFoundException());
 		return deleteMessage;
 	}
+	
+	@Path("/{messageid}/comment")
+	public CommentResouces getCommentResouces() {
+		return new CommentResouces();
+	}
+	
 }
