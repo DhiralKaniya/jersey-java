@@ -6,21 +6,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.jersey.learning.messagnger.DataBase.DatabaseConnection;
-import org.jersey.learning.messagnger.Model.Message;
+import org.jersey.learning.messagnger.Error.UserError;
 import org.jersey.learning.messagnger.Model.*;
 public class CommentServices {
 	private HashMap<Integer, Message> messageService = DatabaseConnection.messages;
 	
 
 	public List<Comment> getComments(int messageid){
-		return new ArrayList<Comment>(messageService.get(messageid).getComments().values());
+		List<Comment> mycomments = new ArrayList<Comment>();
+		if(messageService.get(messageid).getComments().values().size() > 0)
+			mycomments = new ArrayList<Comment>(messageService.get(messageid).getComments().values());
+		else
+			mycomments.add(new Comment(UserError.getNotFoundNumber(),UserError.getSystemAuthor(),UserError.getDataNotFoundException()));
+		return mycomments;
 	}
 	public Comment getComment(int messageid,int commentid) {
 		Map<Integer, Comment> comments = messageService.get(messageid).getComments();
 		if(comments.containsKey(commentid))
 			return comments.get(commentid);
 		else
-			return null;
+			return new Comment(UserError.getNotFoundNumber(),UserError.getSystemAuthor(),UserError.getDataNotFoundException());
 	}
 	public Comment addComment(Comment comment ) {
 		if(messageService.get(comment.getMessageid()) != null) {

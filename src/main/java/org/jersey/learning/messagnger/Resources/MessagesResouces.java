@@ -30,6 +30,13 @@ import org.jersey.learning.messagnger.Error.UserError;
 public class MessagesResouces {
 	MessageService messageService = new MessageService(); 
 	
+	
+	/*@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Message getMesage() {
+		return new Message(UserError.getNotFoundNumber(),UserError.getFirstNameNotFound(),UserError.getDataNotFoundException());
+	}
+	*/
 	@GET
 	public List<Message> getMessages(@BeanParam FilterBeanParam filterParam) {	
 		List<Message> messages = new ArrayList<Message>();
@@ -49,7 +56,6 @@ public class MessagesResouces {
 		}
 		return  messageService.getAllMessages();
 	}
-	
 	@GET
 	@Path("/{messageID}")
 	public Message getMessage(@PathParam("messageID") int messageid) {
@@ -65,7 +71,6 @@ public class MessagesResouces {
 			return m;
 		}
 	}
-	
 	@POST
 	public Message addMessage(@FormParam("author") String author, 
 			@FormParam("message") String message) {
@@ -84,6 +89,7 @@ public class MessagesResouces {
 		}
 		return updateMessage;
 	}
+	
 	@DELETE
 	public Message deleteMessafe(@FormParam("id") String id) {
 		Message deleteMessage = messageService.removeMessage(Integer.parseInt(id));
@@ -92,7 +98,7 @@ public class MessagesResouces {
 		return deleteMessage;
 	}
 	
-	@Path("/{messageid}/comment")
+	@Path("/{messageid}/comments/")
 	public CommentResouces getCommentResouces() {
 		return new CommentResouces();
 	}

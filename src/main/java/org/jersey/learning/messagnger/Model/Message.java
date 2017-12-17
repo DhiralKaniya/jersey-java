@@ -4,20 +4,25 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Message {
 	
-	
+
 	private int id;
+	
 	private String author;
 	
 	private Date createdDate;
+	
+	@XmlTransient
 	private Map<Integer, Comment> comments ;
+	
 	private String message;
 	
 	public Message() {
@@ -37,10 +42,11 @@ public class Message {
 		this.message = message;
 		this.comments = new HashMap<>();
 	}
-	
+	@XmlTransient
 	public Map<Integer, Comment> getComments() {
 		return comments;
 	}
+	@XmlTransient
 	public void setComments(Map<Integer, Comment> comments) {
 		this.comments = comments;
 	}
