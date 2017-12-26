@@ -1,53 +1,63 @@
 package org.jersey.learning.messagnger.Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+import org.jersey.learning.messagnger.Adapter.MapAdapter;
+
+@XmlRootElement
 public class Message {
 	
-
 	private int id;
 	
 	private String author;
 	
 	private Date createdDate;
 	
-	@XmlTransient
-	private Map<Integer, Comment> comments ;
+	private HashMap<Integer, Comment> comments =  new HashMap<>();
 	
 	private String message;
 	
 	public Message() {
-		this.comments = new HashMap<>();
+		
 	}
 	public Message(String id, String author, String message) {
 		this.id = Integer.parseInt(id);
 		this.message = message;
 		this.author = author;
 		this.createdDate = new Date();
-		this.comments = new HashMap<>();
+		
 	}
 	public Message(int id, String author, String message) {
 		this.id = id;
 		this.author = author;
 		this.createdDate = new Date();
 		this.message = message;
-		this.comments = new HashMap<>();
+		
+	}
+	
+	
+	@XmlTransient
+	public List< Comment> getCommentValues(){
+		return new ArrayList<Comment>(comments.values());
 	}
 	@XmlTransient
-	public Map<Integer, Comment> getComments() {
-		return comments;
+	public List<Integer> getCommentIDs(){
+		return new ArrayList<Integer>(comments.keySet());
 	}
-	@XmlTransient
-	public void setComments(Map<Integer, Comment> comments) {
+	
+	public void setComments(HashMap<Integer, Comment> comments) {
 		this.comments = comments;
 	}
 	public int getId() {

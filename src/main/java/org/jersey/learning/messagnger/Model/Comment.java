@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class Comment {
 	private int commentid;
 	private int messageid;
@@ -13,7 +12,7 @@ public class Comment {
 	private String author;
 	private Date created;
 	public Comment(int commentid,int messageid, String comment, String author) {
-		super();
+	
 		this.messageid = messageid;
 		this.commentid = commentid;
 		this.comment = comment;
@@ -21,7 +20,7 @@ public class Comment {
 		this.created = new Date();
 	}
 	public Comment( int messageid, String comment, String author) {
-		super();
+	
 		this.commentid = 0;
 		this.messageid = messageid;
 		this.comment = comment;
