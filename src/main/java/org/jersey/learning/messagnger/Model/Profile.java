@@ -2,11 +2,14 @@ package org.jersey.learning.messagnger.Model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+@Entity
 @XmlRootElement
 public class Profile {
+	@Id
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -17,7 +20,7 @@ public class Profile {
 	}
 	
 	public Profile(int id, String firstName, String lastName, String profileName) {
-		super();
+		//super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
